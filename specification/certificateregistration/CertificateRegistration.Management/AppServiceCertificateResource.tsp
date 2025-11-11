@@ -23,6 +23,12 @@ model AppServiceCertificateResource
     SegmentName = "certificates",
     NamePattern = ""
   >;
+
+  /**
+   * Kind of resource
+   */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  kind?: string;
 }
 
 @armResourceOperations
@@ -30,46 +36,48 @@ interface AppServiceCertificateResources {
   /**
    * Description for Get the certificate associated with a certificate order.
    */
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" "non-standard operations"
-  @operationId("AppServiceCertificateOrders_GetCertificate")
-  getCertificate is ArmResourceRead<AppServiceCertificateResource>;
-
-  /**
-   * Description for Creates or updates a certificate and associates with key vault secret.
-   */
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" "non-standard operations"
-  @operationId("AppServiceCertificateOrders_CreateOrUpdateCertificate")
-  createOrUpdateCertificate is ArmResourceCreateOrReplaceAsync<
+  getCertificate is ArmResourceRead<
     AppServiceCertificateResource,
-    LroHeaders = ArmLroLocationHeader & Azure.Core.Foundations.RetryAfterHeader
+    Error = DefaultErrorResponse
   >;
 
   /**
    * Description for Creates or updates a certificate and associates with key vault secret.
    */
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" "non-standard operations"
-  @operationId("AppServiceCertificateOrders_UpdateCertificate")
+  createOrUpdateCertificate is ArmResourceCreateOrReplaceAsync<
+    AppServiceCertificateResource,
+    Response = ArmResponse<AppServiceCertificateResource> | ArmResourceCreatedResponse<
+      AppServiceCertificateResource,
+      LroHeaders = ArmLroLocationHeader<FinalResult = AppServiceCertificateResource>
+    >,
+    Error = DefaultErrorResponse
+  >;
+
+  /**
+   * Description for Creates or updates a certificate and associates with key vault secret.
+   */
   @patch(#{ implicitOptionality: false })
   updateCertificate is ArmCustomPatchSync<
     AppServiceCertificateResource,
-    PatchModel = AppServiceCertificatePatchResource
+    PatchModel = AppServiceCertificatePatchResource,
+    Error = DefaultErrorResponse
   >;
 
   /**
    * Description for Delete the certificate associated with a certificate order.
    */
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" "non-standard operations"
-  @operationId("AppServiceCertificateOrders_DeleteCertificate")
-  deleteCertificate is ArmResourceDeleteSync<AppServiceCertificateResource>;
+  deleteCertificate is ArmResourceDeleteSync<
+    AppServiceCertificateResource,
+    Error = DefaultErrorResponse
+  >;
 
   /**
    * Description for List all certificates associated with a certificate order.
    */
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" "non-standard operations"
-  @operationId("AppServiceCertificateOrders_ListCertificates")
   listCertificates is ArmResourceListByParent<
     AppServiceCertificateResource,
-    Response = ArmResponse<AppServiceCertificateCollection>
+    Response = ArmResponse<AppServiceCertificateCollection>,
+    Error = DefaultErrorResponse
   >;
 }
 
@@ -80,4 +88,19 @@ interface AppServiceCertificateResources {
 );
 @@doc(AppServiceCertificateResources.updateCertificate::parameters.properties,
   "Key vault certificate resource Id."
+);
+@@summary(AppServiceCertificateResources.deleteCertificate,
+  "Delete the certificate associated with a certificate order."
+);
+@@summary(AppServiceCertificateResources.listCertificates,
+  "List all certificates associated with a certificate order."
+);
+@@summary(AppServiceCertificateResources.getCertificate,
+  "Get the certificate associated with a certificate order."
+);
+@@summary(AppServiceCertificateResources.createOrUpdateCertificate,
+  "Creates or updates a certificate and associates with key vault secret."
+);
+@@summary(AppServiceCertificateResources.updateCertificate,
+  "Creates or updates a certificate and associates with key vault secret."
 );

@@ -13,19 +13,18 @@ using TypeSpec.OpenAPI;
 
 namespace Microsoft.CertificateRegistration;
 
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "For backward compatibility"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
 interface AppServiceCertificateOrdersOperationGroup {
   /**
    * Description for Validate information for a certificate order.
    */
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" "non-standard operations"
   @summary("Validate information for a certificate order.")
-  @operationId("AppServiceCertificateOrders_ValidatePurchaseInformation")
   @autoRoute
   @action("validateCertificateRegistrationInformation")
   validatePurchaseInformation is ArmProviderActionSync<
     Request = AppServiceCertificateOrder,
     Scope = SubscriptionActionScope,
-    Parameters = {}
+    Parameters = {},
+    Error = DefaultErrorResponse
   >;
 }
