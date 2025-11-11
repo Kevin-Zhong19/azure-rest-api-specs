@@ -23,15 +23,19 @@ model DetectorResponse
     SegmentName = "detectors",
     NamePattern = ""
   >;
+
+  /**
+   * Kind of resource
+   */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  kind?: string;
 }
 
 @armResourceOperations
-interface DetectorResponses {
+interface CertificateOrdersDiagnostics {
   /**
    * Description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
    */
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" "non-standard operations"
-  @operationId("CertificateOrdersDiagnostics_GetAppServiceCertificateOrderDetectorResponse")
   getAppServiceCertificateOrderDetectorResponse is ArmResourceRead<
     DetectorResponse,
     Parameters = {
@@ -53,21 +57,27 @@ interface DetectorResponses {
       @pattern("PT[1-9][0-9]+[SMH]")
       @query("timeGrain")
       timeGrain?: string;
-    }
+    },
+    Error = DefaultErrorResponse
   >;
 
   /**
    * Description for Microsoft.CertificateRegistration to get the list of detectors for this RP.
    */
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" "non-standard operations"
-  @operationId("CertificateOrdersDiagnostics_ListAppServiceCertificateOrderDetectorResponse")
   listAppServiceCertificateOrderDetectorResponse is ArmResourceListByParent<
     DetectorResponse,
-    Response = ArmResponse<DetectorResponseCollection>
+    Response = ArmResponse<DetectorResponseCollection>,
+    Error = DefaultErrorResponse
   >;
 }
 
 @@doc(DetectorResponse.name, "The detector name which needs to be run.");
 @@doc(DetectorResponse.properties,
   "DetectorResponse resource specific properties"
+);
+@@summary(CertificateOrdersDiagnostics.listAppServiceCertificateOrderDetectorResponse,
+  "Microsoft.CertificateRegistration to get the list of detectors for this RP."
+);
+@@summary(CertificateOrdersDiagnostics.getAppServiceCertificateOrderDetectorResponse,
+  "Microsoft.CertificateRegistration call to get a detector response from App Lens."
 );

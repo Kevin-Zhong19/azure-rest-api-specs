@@ -4,21 +4,20 @@ using Azure.ClientGenerator.Core;
 using Azure.ClientGenerator.Core.Legacy;
 using Microsoft.CertificateRegistration;
 
-#suppress "deprecated" "@flattenProperty decorator is not recommended to use."
+#suppress "@azure-tools/typespec-azure-core/no-legacy-usage" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
 @@flattenProperty(AppServiceCertificateOrderPatchResource.properties);
 
-#suppress "deprecated" "@flattenProperty decorator is not recommended to use."
+#suppress "@azure-tools/typespec-azure-core/no-legacy-usage" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
 @@flattenProperty(AppServiceCertificatePatchResource.properties);
 
-#suppress "deprecated" "@flattenProperty decorator is not recommended to use."
+#suppress "@azure-tools/typespec-azure-core/no-legacy-usage" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
 @@flattenProperty(ReissueCertificateOrderRequest.properties);
 
-#suppress "deprecated" "@flattenProperty decorator is not recommended to use."
+#suppress "@azure-tools/typespec-azure-core/no-legacy-usage" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
 @@flattenProperty(RenewCertificateOrderRequest.properties);
 
-#suppress "deprecated" "@flattenProperty decorator is not recommended to use."
+#suppress "@azure-tools/typespec-azure-core/no-legacy-usage" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
 @@flattenProperty(SiteSeal.html);
-
 @@clientName(AppServiceCertificateOrders.createOrUpdate::parameters.resource,
   "certificateDistinguishedName"
 );
@@ -37,42 +36,47 @@ using Microsoft.CertificateRegistration;
 @@clientName(AppServiceCertificateOrders.retrieveSiteSeal::parameters.body,
   "siteSealRequest"
 );
-#suppress "deprecated" "@flattenProperty decorator is not recommended to use."
+#suppress "@azure-tools/typespec-azure-core/no-legacy-usage" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
 @@flattenProperty(AppServiceCertificateOrder.properties);
 
 @@clientLocation(AppServiceCertificateResources.getCertificate,
-  "AppServiceCertificateOrders"
+  AppServiceCertificateOrders
 );
 @@clientLocation(AppServiceCertificateResources.createOrUpdateCertificate,
-  "AppServiceCertificateOrders"
+  AppServiceCertificateOrders
 );
 @@clientName(AppServiceCertificateResources.createOrUpdateCertificate::parameters.resource,
   "keyVaultCertificate"
 );
 @@clientLocation(AppServiceCertificateResources.updateCertificate,
-  "AppServiceCertificateOrders"
+  AppServiceCertificateOrders
 );
 @@clientName(AppServiceCertificateResources.updateCertificate::parameters.properties,
   "keyVaultCertificate"
 );
 @@clientLocation(AppServiceCertificateResources.deleteCertificate,
-  "AppServiceCertificateOrders"
+  AppServiceCertificateOrders
 );
 @@clientLocation(AppServiceCertificateResources.listCertificates,
-  "AppServiceCertificateOrders"
+  AppServiceCertificateOrders
 );
-#suppress "deprecated" "@flattenProperty decorator is not recommended to use."
+#suppress "@azure-tools/typespec-azure-core/no-legacy-usage" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
 @@flattenProperty(AppServiceCertificateResource.properties);
 
-@@clientLocation(DetectorResponses.getAppServiceCertificateOrderDetectorResponse,
-  "CertificateOrdersDiagnostics"
+@@clientLocation(CertificateOrdersDiagnostics.getAppServiceCertificateOrderDetectorResponse,
+  CertificateOrdersDiagnostics
 );
-@@clientLocation(DetectorResponses.listAppServiceCertificateOrderDetectorResponse,
-  "CertificateOrdersDiagnostics"
+@@clientLocation(CertificateOrdersDiagnostics.listAppServiceCertificateOrderDetectorResponse,
+  CertificateOrdersDiagnostics
 );
-#suppress "deprecated" "@flattenProperty decorator is not recommended to use."
+#suppress "@azure-tools/typespec-azure-core/no-legacy-usage" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
 @@flattenProperty(DetectorResponse.properties);
 
 @@clientLocation(AppServiceCertificateOrdersOperationGroup.validatePurchaseInformation,
-  "AppServiceCertificateOrders"
+  AppServiceCertificateOrders
+);
+@@clientLocation(Operations.list, "CertificateRegistrationProvider");
+@@clientName(Operations.list, "ListOperations");
+@@clientName(AppServiceCertificateOrdersOperationGroup.validatePurchaseInformation::parameters.body,
+  "appServiceCertificateOrder"
 );
