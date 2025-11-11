@@ -21,12 +21,6 @@ model AppServiceCertificateOrder
     SegmentName = "certificateOrders",
     NamePattern = ""
   >;
-
-  /**
-   * Kind of resource
-   */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
-  kind?: string;
 }
 
 @armResourceOperations
@@ -34,21 +28,14 @@ interface AppServiceCertificateOrders {
   /**
    * Description for Get a certificate order.
    */
-  get is ArmResourceRead<
-    AppServiceCertificateOrder,
-    Error = DefaultErrorResponse
-  >;
+  get is ArmResourceRead<AppServiceCertificateOrder>;
 
   /**
    * Description for Create or update a certificate purchase order.
    */
   createOrUpdate is ArmResourceCreateOrReplaceAsync<
     AppServiceCertificateOrder,
-    Response = ArmResponse<AppServiceCertificateOrder> | ArmResourceCreatedResponse<
-      AppServiceCertificateOrder,
-      LroHeaders = ArmLroLocationHeader<FinalResult = AppServiceCertificateOrder>
-    >,
-    Error = DefaultErrorResponse
+    LroHeaders = ArmLroLocationHeader & Azure.Core.Foundations.RetryAfterHeader
   >;
 
   /**
@@ -57,25 +44,20 @@ interface AppServiceCertificateOrders {
   @patch(#{ implicitOptionality: false })
   update is ArmCustomPatchSync<
     AppServiceCertificateOrder,
-    PatchModel = AppServiceCertificateOrderPatchResource,
-    Error = DefaultErrorResponse
+    PatchModel = AppServiceCertificateOrderPatchResource
   >;
 
   /**
    * Description for Delete an existing certificate order.
    */
-  delete is ArmResourceDeleteSync<
-    AppServiceCertificateOrder,
-    Error = DefaultErrorResponse
-  >;
+  delete is ArmResourceDeleteSync<AppServiceCertificateOrder>;
 
   /**
    * Description for Get certificate orders in a resource group.
    */
   listByResourceGroup is ArmResourceListByParent<
     AppServiceCertificateOrder,
-    Response = ArmResponse<AppServiceCertificateOrderCollection>,
-    Error = DefaultErrorResponse
+    Response = ArmResponse<AppServiceCertificateOrderCollection>
   >;
 
   /**
@@ -83,8 +65,7 @@ interface AppServiceCertificateOrders {
    */
   list is ArmListBySubscription<
     AppServiceCertificateOrder,
-    Response = ArmResponse<AppServiceCertificateOrderCollection>,
-    Error = DefaultErrorResponse
+    Response = ArmResponse<AppServiceCertificateOrderCollection>
   >;
 
   /**
@@ -93,8 +74,7 @@ interface AppServiceCertificateOrders {
   reissue is ArmResourceActionSync<
     AppServiceCertificateOrder,
     ReissueCertificateOrderRequest,
-    NoContentResponse,
-    Error = DefaultErrorResponse
+    NoContentResponse
   >;
 
   /**
@@ -103,8 +83,7 @@ interface AppServiceCertificateOrders {
   renew is ArmResourceActionSync<
     AppServiceCertificateOrder,
     RenewCertificateOrderRequest,
-    NoContentResponse,
-    Error = DefaultErrorResponse
+    NoContentResponse
   >;
 
   /**
@@ -113,8 +92,7 @@ interface AppServiceCertificateOrders {
   resendEmail is ArmResourceActionSync<
     AppServiceCertificateOrder,
     void,
-    NoContentResponse,
-    Error = DefaultErrorResponse
+    NoContentResponse
   >;
 
   /**
@@ -123,8 +101,7 @@ interface AppServiceCertificateOrders {
   resendRequestEmails is ArmResourceActionSync<
     AppServiceCertificateOrder,
     NameIdentifier,
-    NoContentResponse,
-    Error = DefaultErrorResponse
+    NoContentResponse
   >;
 
   /**
@@ -133,8 +110,7 @@ interface AppServiceCertificateOrders {
   retrieveSiteSeal is ArmResourceActionSync<
     AppServiceCertificateOrder,
     SiteSealRequest,
-    ArmResponse<SiteSeal>,
-    Error = DefaultErrorResponse
+    ArmResponse<SiteSeal>
   >;
 
   /**
@@ -143,39 +119,40 @@ interface AppServiceCertificateOrders {
   verifyDomainOwnership is ArmResourceActionSync<
     AppServiceCertificateOrder,
     void,
-    NoContentResponse,
-    Error = DefaultErrorResponse
+    NoContentResponse
   >;
 
   /**
    * Description for Retrieve the list of certificate actions.
    */
-  #suppress "@azure-tools/typespec-azure-core/no-legacy-usage" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
-  @Azure.ResourceManager.Legacy.renamePathParameter(
-    "certificateOrderName",
-    "name"
-  )
   retrieveCertificateActions is ArmResourceActionSync<
     AppServiceCertificateOrder,
     void,
     ArmResponse<CertificateOrderAction[]>,
-    Error = DefaultErrorResponse
+    Parameters = {
+      /**
+       * Name of the certificate order.
+       */
+      @path
+      name: string;
+    }
   >;
 
   /**
    * Description for Retrieve email history.
    */
-  #suppress "@azure-tools/typespec-azure-core/no-legacy-usage" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
-  @Azure.ResourceManager.Legacy.renamePathParameter(
-    "certificateOrderName",
-    "name"
-  )
   @action("retrieveEmailHistory")
   retrieveCertificateEmailHistory is ArmResourceActionSync<
     AppServiceCertificateOrder,
     void,
     ArmResponse<CertificateEmail[]>,
-    Error = DefaultErrorResponse
+    Parameters = {
+      /**
+       * Name of the certificate order.
+       */
+      @path
+      name: string;
+    }
   >;
 }
 
@@ -198,45 +175,4 @@ interface AppServiceCertificateOrders {
 );
 @@doc(AppServiceCertificateOrders.retrieveSiteSeal::parameters.body,
   "Site seal request."
-);
-@@doc(AppServiceCertificateOrder.properties,
-  "AppServiceCertificateOrder resource specific properties"
-);
-@@summary(AppServiceCertificateOrders.list,
-  "List all certificate orders in a subscription."
-);
-@@summary(AppServiceCertificateOrders.listByResourceGroup,
-  "Get certificate orders in a resource group."
-);
-@@summary(AppServiceCertificateOrders.get, "Get a certificate order.");
-@@summary(AppServiceCertificateOrders.createOrUpdate,
-  "Create or update a certificate purchase order."
-);
-@@summary(AppServiceCertificateOrders.delete,
-  "Delete an existing certificate order."
-);
-@@summary(AppServiceCertificateOrders.update,
-  "Create or update a certificate purchase order."
-);
-@@summary(AppServiceCertificateOrders.reissue,
-  "Reissue an existing certificate order."
-);
-@@summary(AppServiceCertificateOrders.renew,
-  "Renew an existing certificate order."
-);
-@@summary(AppServiceCertificateOrders.resendEmail, "Resend certificate email.");
-@@summary(AppServiceCertificateOrders.resendRequestEmails,
-  "Resend domain verification email to customer for this certificate order"
-);
-@@summary(AppServiceCertificateOrders.retrieveCertificateActions,
-  "Retrieve the list of certificate actions."
-);
-@@summary(AppServiceCertificateOrders.retrieveCertificateEmailHistory,
-  "Retrieve email history."
-);
-@@summary(AppServiceCertificateOrders.retrieveSiteSeal,
-  "This method is used to obtain the site seal information for an issued certificate. "
-);
-@@summary(AppServiceCertificateOrders.verifyDomainOwnership,
-  "Verify domain ownership for this certificate order."
 );

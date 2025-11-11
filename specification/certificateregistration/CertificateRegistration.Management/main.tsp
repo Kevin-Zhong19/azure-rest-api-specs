@@ -24,9 +24,11 @@ using Azure.ResourceManager.Foundations;
 using Azure.Core;
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
-
+/**
+ * WebSite Management Client
+ */
 @armProviderNamespace
-@service(#{ title: "Common Definitions" })
+@service(#{ title: "WebSiteManagementClient" })
 @versioned(Versions)
 // FIXME: Common type version not set. Set to v3.
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v3)
@@ -42,15 +44,4 @@ enum Versions {
   v2024_11_01: "2024-11-01",
 }
 
-interface Operations
-  extends Azure.ResourceManager.Legacy.Operations<
-      ArmResponse<CsmOperationCollection>,
-      DefaultErrorResponse
-    > {}
-
-@@doc(Operations.list,
-  "Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider"
-);
-@@summary(Operations.list,
-  "Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider"
-);
+interface Operations extends Azure.ResourceManager.Operations {}
